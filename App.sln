@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32505.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "App\App.csproj", "{CAD0CB0B-00FD-439D-B15C-D4D562A1E36E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibControllers", "LibControllers\LibControllers.csproj", "{532655EE-7352-429B-A633-F798079A029D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{3B947DF8-9E83-4804-A778-138DCB50A6D7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CAD0CB0B-00FD-439D-B15C-D4D562A1E36E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAD0CB0B-00FD-439D-B15C-D4D562A1E36E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAD0CB0B-00FD-439D-B15C-D4D562A1E36E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAD0CB0B-00FD-439D-B15C-D4D562A1E36E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{532655EE-7352-429B-A633-F798079A029D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{532655EE-7352-429B-A633-F798079A029D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{532655EE-7352-429B-A633-F798079A029D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{532655EE-7352-429B-A633-F798079A029D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B947DF8-9E83-4804-A778-138DCB50A6D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B947DF8-9E83-4804-A778-138DCB50A6D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B947DF8-9E83-4804-A778-138DCB50A6D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B947DF8-9E83-4804-A778-138DCB50A6D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9276D008-53A5-4720-9B6B-5531034BA184}
+	EndGlobalSection
+EndGlobal

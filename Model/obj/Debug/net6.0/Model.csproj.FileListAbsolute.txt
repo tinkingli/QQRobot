@@ -1,0 +1,15 @@
+C:\Users\litia\Desktop\App\Model\bin\Debug\net6.0\Model.deps.json
+C:\Users\litia\Desktop\App\Model\bin\Debug\net6.0\Model.dll
+C:\Users\litia\Desktop\App\Model\bin\Debug\net6.0\Model.pdb
+C:\Users\litia\Desktop\App\Model\bin\Debug\net6.0\System.Reactive.dll
+C:\Users\litia\Desktop\App\Model\bin\Debug\net6.0\System.Reactive.xml
+C:\Users\litia\Desktop\App\Model\obj\Debug\net6.0\Model.csproj.AssemblyReference.cache
+C:\Users\litia\Desktop\App\Model\obj\Debug\net6.0\Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\litia\Desktop\App\Model\obj\Debug\net6.0\Model.AssemblyInfoInputs.cache
+C:\Users\litia\Desktop\App\Model\obj\Debug\net6.0\Model.AssemblyInfo.cs
+C:\Users\litia\Desktop\App\Model\obj\Debug\net6.0\Model.csproj.CoreCompileInputs.cache
+C:\Users\litia\Desktop\App\Model\obj\Debug\net6.0\Model.csproj.CopyComplete
+C:\Users\litia\Desktop\App\Model\obj\Debug\net6.0\Model.dll
+C:\Users\litia\Desktop\App\Model\obj\Debug\net6.0\refint\Model.dll
+C:\Users\litia\Desktop\App\Model\obj\Debug\net6.0\Model.pdb
+C:\Users\litia\Desktop\App\Model\obj\Debug\net6.0\ref\Model.dll

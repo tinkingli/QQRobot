@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "dgSpecHash": "gz/qfQwsYTBB97YxWWtQGySeXFRGhPokhMZ9FkpKOk2pIEL0eZ5h1IsNEZx1+g+dVdCYRjTUGBZ1K/7vPFQCWw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\litia\\.nuget\\packages\\flurl\\3.0.4\\flurl.3.0.4.nupkg.sha512",
+    "C:\\Users\\litia\\.nuget\\packages\\flurl.http\\3.2.2\\flurl.http.3.2.2.nupkg.sha512",
+    "C:\\Users\\litia\\.nuget\\packages\\manganese\\1.2.1\\manganese.1.2.1.nupkg.sha512",
+    "C:\\Users\\litia\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",
+    "C:\\Users\\litia\\.nuget\\packages\\mirai.net\\2.4.1\\mirai.net.2.4.1.nupkg.sha512",
+    "C:\\Users\\litia\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\litia\\.nuget\\packages\\system.reactive\\4.3.2\\system.reactive.4.3.2.nupkg.sha512",
+    "C:\\Users\\litia\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512",
+    "C:\\Users\\litia\\.nuget\\packages\\system.text.encoding.codepages\\4.5.1\\system.text.encoding.codepages.4.5.1.nupkg.sha512",
+    "C:\\Users\\litia\\.nuget\\packages\\system.threading.channels\\4.7.0\\system.threading.channels.4.7.0.nupkg.sha512",
+    "C:\\Users\\litia\\.nuget\\packages\\websocket.client\\4.4.43\\websocket.client.4.4.43.nupkg.sha512"
+  ],
+  "logs": []
+}
