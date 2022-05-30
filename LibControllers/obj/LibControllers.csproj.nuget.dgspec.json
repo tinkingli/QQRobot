@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\litia\\Desktop\\App\\LibControllers\\LibControllers.csproj": {}
+    "N:\\QQRobot\\LibControllers\\LibControllers.csproj": {}
   },
   "projects": {
-    "C:\\Users\\litia\\Desktop\\App\\LibControllers\\LibControllers.csproj": {
+    "N:\\QQRobot\\LibControllers\\LibControllers.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\litia\\Desktop\\App\\LibControllers\\LibControllers.csproj",
+        "projectUniqueName": "N:\\QQRobot\\LibControllers\\LibControllers.csproj",
         "projectName": "LibControllers",
-        "projectPath": "C:\\Users\\litia\\Desktop\\App\\LibControllers\\LibControllers.csproj",
+        "projectPath": "N:\\QQRobot\\LibControllers\\LibControllers.csproj",
         "packagesPath": "C:\\Users\\litia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\litia\\Desktop\\App\\LibControllers\\obj\\",
+        "outputPath": "N:\\QQRobot\\LibControllers\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\litia\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj": {
-                "projectPath": "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj"
+              "N:\\QQRobot\\Model\\Model.csproj": {
+                "projectPath": "N:\\QQRobot\\Model\\Model.csproj"
               }
             }
           }
@@ -72,14 +72,14 @@
         }
       }
     },
-    "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj": {
+    "N:\\QQRobot\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj",
+        "projectUniqueName": "N:\\QQRobot\\Model\\Model.csproj",
         "projectName": "Model",
-        "projectPath": "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj",
+        "projectPath": "N:\\QQRobot\\Model\\Model.csproj",
         "packagesPath": "C:\\Users\\litia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\litia\\Desktop\\App\\Model\\obj\\",
+        "outputPath": "N:\\QQRobot\\Model\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\litia\\AppData\\Roaming\\NuGet\\NuGet.Config",

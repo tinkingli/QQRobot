@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj": {}
+    "N:\\QQRobot\\Model\\Model.csproj": {}
   },
   "projects": {
-    "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj": {
+    "N:\\QQRobot\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj",
+        "projectUniqueName": "N:\\QQRobot\\Model\\Model.csproj",
         "projectName": "Model",
-        "projectPath": "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj",
+        "projectPath": "N:\\QQRobot\\Model\\Model.csproj",
         "packagesPath": "C:\\Users\\litia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\litia\\Desktop\\App\\Model\\obj\\",
+        "outputPath": "N:\\QQRobot\\Model\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\litia\\AppData\\Roaming\\NuGet\\NuGet.Config",

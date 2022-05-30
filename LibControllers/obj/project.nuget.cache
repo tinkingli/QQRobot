@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1nNZy/FL0rt/scvsEiJ2YGFgJAEISULnvYGKe/EShf7rmOf6u1qCd2sGZGyu30jEf2etWanGHSMF3t3keFzaew==",
+  "dgSpecHash": "CaocqOZb8bZs+182G06HF6mj2rtIczhl2pvvDexLG5DJaf7Zd8Lc5e8qApRYbE3eRkoWjZIoZsFbx0cerocI7g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\litia\\Desktop\\App\\LibControllers\\LibControllers.csproj",
+  "projectFilePath": "N:\\QQRobot\\LibControllers\\LibControllers.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\litia\\.nuget\\packages\\dnsclient\\1.3.1\\dnsclient.1.3.1.nupkg.sha512",
     "C:\\Users\\litia\\.nuget\\packages\\flurl\\3.0.4\\flurl.3.0.4.nupkg.sha512",

@@ -6482,11 +6482,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\litia\\Desktop\\App\\App\\App.csproj",
+      "projectUniqueName": "N:\\QQRobot\\App\\App.csproj",
       "projectName": "App",
-      "projectPath": "C:\\Users\\litia\\Desktop\\App\\App\\App.csproj",
+      "projectPath": "N:\\QQRobot\\App\\App.csproj",
       "packagesPath": "C:\\Users\\litia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\litia\\Desktop\\App\\App\\obj\\",
+      "outputPath": "N:\\QQRobot\\App\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\litia\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6503,8 +6503,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj": {
-              "projectPath": "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj"
+            "N:\\QQRobot\\Model\\Model.csproj": {
+              "projectPath": "N:\\QQRobot\\Model\\Model.csproj"
             }
           }
         }

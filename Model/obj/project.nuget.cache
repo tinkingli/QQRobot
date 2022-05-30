@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gz/qfQwsYTBB97YxWWtQGySeXFRGhPokhMZ9FkpKOk2pIEL0eZ5h1IsNEZx1+g+dVdCYRjTUGBZ1K/7vPFQCWw==",
+  "dgSpecHash": "YnMLEqRoFsNn0ZmYTk0j9s6D9eR8+KxsdRyyng+hLUImsnkHfIJLP9aj8UhUiW/oQBBuDBPm0FTAnpHUVL/MCw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\litia\\Desktop\\App\\Model\\Model.csproj",
+  "projectFilePath": "N:\\QQRobot\\Model\\Model.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\litia\\.nuget\\packages\\flurl\\3.0.4\\flurl.3.0.4.nupkg.sha512",
     "C:\\Users\\litia\\.nuget\\packages\\flurl.http\\3.2.2\\flurl.http.3.2.2.nupkg.sha512",
