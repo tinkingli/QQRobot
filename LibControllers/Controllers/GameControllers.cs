@@ -172,16 +172,32 @@ namespace App
 				return;
 			if (lucky.Jingjie < killer.info.Jingjie)
 			{
+				var b = new MessageChainBuilder();
+				var atmsg = new AtMessage()
+				{
+					Target = lucky.id
+				};
+				PlainMessage msg = null;
 				if (lucky.NeedTupo)
 				{
 					lucky.Jingjie++;
 					DBHelper.Save(lucky);
-					await group.SendGroupMessageAsync($"{lucky.name}在旁观决斗时忽然心有所悟，成功突破到了{lucky.Jingjie}境界");
-					return;
+					msg = new PlainMessage()
+					{
+						Text = $"{lucky.name}在旁观决斗时忽然心有所悟，成功突破到了{lucky.Jingjie}境界"
+					};
 				}
-				lucky.Gongli++;
-				DBHelper.Save(lucky);
-				await group.SendGroupMessageAsync($"{lucky.name}被决斗的余威扫中，身受重伤，不过伤愈后功力竟然略有增长（功力+1({lucky.Gongli})）");
+				else
+				{
+					lucky.Gongli++;
+					DBHelper.Save(lucky);
+					msg = new PlainMessage()
+					{
+						Text = $"{lucky.name}被决斗的余威扫中，身受重伤，不过伤愈后功力竟然略有增长（功力+1({lucky.Gongli})）"
+					};
+				}
+				b.Append(atmsg).Append(msg);
+				await group.SendGroupMessageAsync(b.Build());
 			}
 		}
 
