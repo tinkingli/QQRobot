@@ -46,7 +46,7 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 			};
 			var b = new MessageChainBuilder();
 			b.Append(at).Append(msg);
-			await MessageManager.SendGroupMessageAsync(group.Id, b.Build());
+			await group.SendNormalMessage(b.Build());
 		}
 		[GroupMessage("签到")]
 		public static async void DailyCheck(Group group, Member friend)
@@ -75,14 +75,14 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				dice.Value = (extra == "我不能输" ? 6 : rdm.Next(4) + 3).ToString();
 			else
 				dice.Value = (rdm.Next(6) + 1).ToString();
-			await MessageManager.SendGroupMessageAsync(group.Id, dice);
+			await group.SendGroupMessageAsync(dice);
 		}
 		[GroupMessage("文章")]
 		public static async void WenZhang(Group group, Member friend, string content)
 		{
 			if (GroupHelper.Invalid(group.Id))
 				return;
-			await MessageManager.SendGroupMessageAsync(group.Id, $"http://www.kcwork.gq/webcn/?task/{content}");
+			await group.SendGroupMessageAsync($"http://www.kcwork.gq/webcn/?task/{content}");
 		}
 		[GroupMessage("@月色")]
 		public static async void ChatWithMe(Group group, Member friend, string content)
@@ -101,16 +101,16 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				return;
 			if (content.Contains("废话"))
 			{
-				await MessageManager.SendGroupMessageAsync(group.Id, "这种事情我见的多了，我只想说懂得都懂，不懂的我也不多说了，细细品吧，你也别来问我怎么回事，这里面利益牵扯太大了，说了对你我都没有好处，你就当不知道就行了，其余的我只能说这里水很深，牵扯到很多东西，详细情况你们很难找到的，网上大部分都删干净了，所以我说懂得都懂。");
+				await group.SendNormalMessage( "这种事情我见的多了，我只想说懂得都懂，不懂的我也不多说了，细细品吧，你也别来问我怎么回事，这里面利益牵扯太大了，说了对你我都没有好处，你就当不知道就行了，其余的我只能说这里水很深，牵扯到很多东西，详细情况你们很难找到的，网上大部分都删干净了，所以我说懂得都懂。");
 				return;
 			}
             if (content.Contains("聊骚"))
             {
-				await MessageManager.SendGroupMessageAsync(group.Id, "去死吧！！！");
+				await group.SendNormalMessage( "去死吧！！！");
 				return;
 			}
 			var reply = GroupHelper.GetRobotReply(content);
-			await MessageManager.SendGroupMessageAsync(group.Id, await HttpHelper.GetRobotReply(content));
+			await group.SendNormalMessage( await HttpHelper.GetRobotReply(content));
 		}
 
 		[GroupMessage("acg")]
@@ -129,11 +129,11 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				{
 					Url = img,
 				};
-				await MessageManager.SendGroupMessageAsync(group.Id, reply);
+				await group.SendNormalMessage( reply);
 			}
 			catch
 			{
-				await MessageManager.SendGroupMessageAsync(group.Id, "获取图片失败");
+				await group.SendNormalMessage( "获取图片失败");
 			}
 		}
 		[GroupMessage("cos")]
@@ -152,11 +152,11 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				{
 					Url = img,
 				};
-				await MessageManager.SendGroupMessageAsync(group.Id, reply);
+				await group.SendNormalMessage( reply);
 			}
 			catch
 			{
-				await MessageManager.SendGroupMessageAsync(group.Id, "获取图片失败");
+				await group.SendNormalMessage( "获取图片失败");
 			}
 		}
 		[GroupMessage("mjx")]
@@ -175,11 +175,11 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				{
 					Url = img,
 				};
-				await MessageManager.SendGroupMessageAsync(group.Id, reply);
+				await group.SendNormalMessage( reply);
 			}
 			catch
 			{
-				await MessageManager.SendGroupMessageAsync(group.Id, "获取图片失败");
+				await group.SendNormalMessage( "获取图片失败");
 			}
 		}
 		[GroupMessage("美图")]
@@ -198,18 +198,18 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				{
 					Url = img,
 				};
-				await MessageManager.SendGroupMessageAsync(group.Id, reply);
+				await group.SendNormalMessage( reply);
 			}
 			catch
 			{
-				await MessageManager.SendGroupMessageAsync(group.Id, "获取图片失败");
+				await group.SendNormalMessage( "获取图片失败");
 			}
 		}
 
 		[GroupMessage("电影")]
 		public static async void MovieWeb(Group group, Member m)
 		{
-			await MessageManager.SendGroupMessageAsync(group.Id, "https://www.subaibaiys.com/movie/39921.html");
+			await group.SendNormalMessage( "https://www.subaibaiys.com/movie/39921.html");
 		}
 
 		[GroupMessage]

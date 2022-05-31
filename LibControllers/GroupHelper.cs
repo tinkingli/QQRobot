@@ -1,4 +1,5 @@
-﻿using Mirai.Net.Data.Messages.Concretes;
+﻿using Mirai.Net.Data.Messages;
+using Mirai.Net.Data.Messages.Concretes;
 using Mirai.Net.Sessions.Http.Managers;
 using Mirai.Net.Utils.Scaffolds;
 using System;
@@ -115,19 +116,46 @@ namespace App
 		{
 			await SendNormalMessage(g.Id, content);
 		}
+		public static async Task SendNormalMessage(this Mirai.Net.Data.Shared.Group g, MessageChain content)
+		{
+			try
+			{
+				await MessageManager.SendGroupMessageAsync(g.Id, content);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"[SendMessageFailed]{ex}");
+			}
+		}
 
 		public static async Task SendNormalMessage(string gid, string content)
 		{
-			await MessageManager.SendGroupMessageAsync(gid, content);
+			try
+			{
+				await MessageManager.SendGroupMessageAsync(gid, content);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"[SendMessageFailed]{ex}");
+			}
+		}
+		public static async Task SendNormalMessage(this Mirai.Net.Data.Shared.Group g, List<string> lprocess)
+		{
+			await SendNormalMessage(g.Id, lprocess);
 		}
 		public static async Task SendNormalMessage(string gid, List<string> lprocess)
 		{
-			ExceptionHandler.CatchUnhandle();
-
-			var b = new MessageChainBuilder();
-			foreach (var pro in lprocess)
-				b.Append(new PlainMessage() { Text = pro + "\n" });
-			await MessageManager.SendGroupMessageAsync(gid, b.Build());
+			try
+			{
+				var b = new MessageChainBuilder();
+				foreach (var pro in lprocess)
+					b.Append(new PlainMessage() { Text = pro + "\n" });
+				await MessageManager.SendGroupMessageAsync(gid, b.Build());
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"[SendMessageFailed]{ex}");
+			}
 		}
 	}
 }
