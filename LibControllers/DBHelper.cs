@@ -72,5 +72,12 @@ namespace App
 			}
 			return l;
 		}
+		public static Info GetRandomCache()
+		{
+			if (dCache.Count == 0)
+				return null;
+			var keys = dCache.Keys.ToArray();
+			return dCache[keys[RandomHelper.Next(keys.Length)]];
+		}
 	}
 }
