@@ -218,5 +218,11 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 			Console.WriteLine($"[Group-{group.Id}-{group.Name}][QQ-{friend.Id}][Lv:{friend.MmeberProfile.Level}]{friend.Name}({friend.MmeberProfile.NickName}):{content}");
 		}
 
+		[GroupMessage("青楼")]
+		public static async void OnQinglou(Group group, Member friend)
+		{
+			await group.SendGroupMessageAsync($"{friend.Name} 独上青楼听艳曲，手擎玉箫无人吹。");
+		}
+
 	}
 }
