@@ -5,8 +5,8 @@ using Mirai.Net.Utils.Scaffolds;
 
 namespace App
 {
-    public static class GameControllers
-    {
+	public static class GameControllers
+	{
 		class JuedouCell
 		{
 			public string id;
@@ -26,12 +26,12 @@ namespace App
 		}
 		class Juedou
 		{
-            public Juedou()
-            {
-                startt = DateTime.Now;
-            }
+			public Juedou()
+			{
+				startt = DateTime.Now;
+			}
 
-            public JuedouCell A;
+			public JuedouCell A;
 			public JuedouCell B;
 			public DateTime startt;
 			public bool Valid
@@ -164,6 +164,24 @@ namespace App
 					DBHelper.Save(bekill.info);
 					await group.SendGroupMessageAsync($"{bekill.info.name}虽然惜败，但是在决斗的生死压迫中也感受到了命运的召唤，成功突破境界。");
 				}
+			}
+			if (RandomHelper.Next(2) == 0)
+				return;
+			var lucky = DBHelper.GetRandomCache();
+			if (lucky == null)
+				return;
+			if (lucky.Jingjie < killer.info.Jingjie)
+			{
+				if (lucky.NeedTupo)
+				{
+					lucky.Jingjie++;
+					DBHelper.Save(lucky);
+					await group.SendGroupMessageAsync($"{lucky.name}在旁观决斗时忽然心有所悟，成功突破到了{lucky.Jingjie}境界");
+					return;
+				}
+				lucky.Gongli++;
+				DBHelper.Save(lucky);
+				await group.SendGroupMessageAsync($"{lucky.name}被决斗的余威扫中，身受重伤，不过伤愈后功力竟然略有增长（功力+1({lucky.Gongli})）");
 			}
 		}
 
@@ -370,13 +388,16 @@ namespace App
 			if (GroupHelper.Invalid(group.Id))
 				return;
 			var info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
-			var str = $"【{friend.Name}】\n" +
+			var res = $"【{friend.Name}】\n" +
 				$"功力：{info.Gongli}\n" +
 				$"境界：{info.JingjieDes}\n" +
 				$"精力：{info.Energy}\n" +
 				$"打坐进度：{info.Dazuo}/100"
 				;
-			await group.SendGroupMessageAsync(str);
+			var b = new MessageChainBuilder();
+			var m = new ImageMessage() { Base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes("logo.png")) };
+			b.Append(m).Append(new PlainMessage() { Text = res });
+			await group.SendGroupMessageAsync(b.Build());
 		}
 
 		[GroupMessage("功力榜")]
@@ -388,7 +409,10 @@ namespace App
 			{
 				res += $"【{kv.Key + 1}】{kv.Value.name} 功力：({kv.Value.Gongli})\n";
 			}
-			await group.SendGroupMessageAsync(res);
+			var b = new MessageChainBuilder();
+			var m = new ImageMessage() { Base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes("logo.png")) };
+			b.Append(m).Append(new PlainMessage() { Text = res });
+			await group.SendGroupMessageAsync(b.Build());
 		}
 
 		[GroupMessage("精力榜")]
@@ -400,7 +424,10 @@ namespace App
 			{
 				res += $"【{kv.Key + 1}】{kv.Value.name} 精力：({kv.Value.Energy})\n";
 			}
-			await group.SendGroupMessageAsync(res);
+			var b = new MessageChainBuilder();
+			var m = new ImageMessage() { Base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes("logo.png")) };
+			b.Append(m).Append(new PlainMessage() { Text = res });
+			await group.SendGroupMessageAsync(b.Build());
 		}
 
 		[GroupMessage("决斗榜")]
@@ -412,7 +439,10 @@ namespace App
 			{
 				res += $"【{kv.Key + 1}】{kv.Value.name} 决斗胜利 {kv.Value.JuedouWin} 次\n";
 			}
-			await group.SendGroupMessageAsync(res);
+			var b = new MessageChainBuilder();
+			var m = new ImageMessage() { Base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes("logo.png")) };
+			b.Append(m).Append(new PlainMessage() { Text = res });
+			await group.SendGroupMessageAsync(b.Build());
 		}
 
 		[GroupMessage("境界榜")]
@@ -424,7 +454,10 @@ namespace App
 			{
 				res += $"【{kv.Key + 1}】{kv.Value.name} 境界：{kv.Value.JingjieDes}\n";
 			}
-			await group.SendGroupMessageAsync(res);
+			var b = new MessageChainBuilder();
+			var m = new ImageMessage() { Base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes("logo.png")) };
+			b.Append(m).Append(new PlainMessage() { Text = res });
+			await group.SendGroupMessageAsync(b.Build());
 		}
 
 		[GroupMessage("功能")]
