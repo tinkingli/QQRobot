@@ -23,7 +23,7 @@ namespace App
 			var b = new MessageChainBuilder();
 			var m = new ImageMessage() { Base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes("logo.png")) };
 			b.Append(m).Append(new PlainMessage() { Text = res });
-			await group.SendGroupMessageAsync(b.Build());
+			await group.SendMessage(b.Build());
 		}
 	}
 }

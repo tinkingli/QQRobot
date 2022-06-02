@@ -46,7 +46,7 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 			};
 			var b = new MessageChainBuilder();
 			b.Append(at).Append(msg);
-			await group.SendNormalMessage(b.Build());
+			await group.SendMessage(b.Build());
 		}
 		[GroupMessage("签到")]
 		public static async void DailyCheck(Group group, Member friend)
@@ -56,7 +56,7 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 			var info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
 			if (ApiDateTime.IsToday(info.DailyCheckT))
 			{
-				await group.SendNormalMessage($"今天已经签到过了");
+				await group.SendMessage($"今天已经签到过了");
 				return;
 			}
 			info.DailyCheckT = ApiDateTime.SecondsFromBegin();
@@ -101,16 +101,16 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				return;
 			if (content.Contains("废话"))
 			{
-				await group.SendNormalMessage( "这种事情我见的多了，我只想说懂得都懂，不懂的我也不多说了，细细品吧，你也别来问我怎么回事，这里面利益牵扯太大了，说了对你我都没有好处，你就当不知道就行了，其余的我只能说这里水很深，牵扯到很多东西，详细情况你们很难找到的，网上大部分都删干净了，所以我说懂得都懂。");
+				await group.SendMessage( "这种事情我见的多了，我只想说懂得都懂，不懂的我也不多说了，细细品吧，你也别来问我怎么回事，这里面利益牵扯太大了，说了对你我都没有好处，你就当不知道就行了，其余的我只能说这里水很深，牵扯到很多东西，详细情况你们很难找到的，网上大部分都删干净了，所以我说懂得都懂。");
 				return;
 			}
             if (content.Contains("聊骚"))
             {
-				await group.SendNormalMessage( "去死吧！！！");
+				await group.SendMessage( "去死吧！！！");
 				return;
 			}
 			var reply = GroupHelper.GetRobotReply(content);
-			await group.SendNormalMessage( await HttpHelper.GetRobotReply(content));
+			await group.SendMessage( await HttpHelper.GetRobotReply(content));
 		}
 
 		[GroupMessage("acg")]
@@ -118,8 +118,6 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 		{
 			try
 			{
-				if (GroupHelper.Invalid(group.Id))
-					return;
 				if (GroupHelper.InvalidSetu(group.Id))
 					return;
 				var res = await HttpHelper.GetHttpReq("https://api.xiaobaibk.com/api/pic/acg-1/?return=json");
@@ -129,11 +127,11 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				{
 					Url = img,
 				};
-				await group.SendNormalMessage( reply);
+				await group.SendMessage( reply);
 			}
 			catch
 			{
-				await group.SendNormalMessage( "获取图片失败");
+				await group.SendMessage( "获取图片失败");
 			}
 		}
 		[GroupMessage("cos")]
@@ -141,8 +139,6 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 		{
 			try
 			{
-				if (GroupHelper.Invalid(group.Id))
-					return;
 				if (GroupHelper.InvalidSetu(group.Id))
 					return;
 				var res = await HttpHelper.GetHttpReq("https://api.dzzui.com/api/cosplay?format=json");
@@ -152,11 +148,11 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				{
 					Url = img,
 				};
-				await group.SendNormalMessage( reply);
+				await group.SendMessage( reply);
 			}
 			catch
 			{
-				await group.SendNormalMessage( "获取图片失败");
+				await group.SendMessage( "获取图片失败");
 			}
 		}
 		[GroupMessage("mjx")]
@@ -164,8 +160,6 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 		{
 			try
 			{
-				if (GroupHelper.Invalid(group.Id))
-					return;
 				if (GroupHelper.InvalidSetu(group.Id))
 					return;
 				var res = await HttpHelper.GetHttpReq("https://api.dzzui.com/api/imgtaobao?format=json");
@@ -175,18 +169,16 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				{
 					Url = img,
 				};
-				await group.SendNormalMessage( reply);
+				await group.SendMessage( reply);
 			}
 			catch
 			{
-				await group.SendNormalMessage( "获取图片失败");
+				await group.SendMessage( "获取图片失败");
 			}
 		}
 		[GroupMessage("美图")]
 		public static async void GirlPic(Group group, Member m, string content)
 		{
-			if (GroupHelper.Invalid(group.Id))
-				return;
 			if (GroupHelper.InvalidSetu(group.Id))
 				return;
 			try
@@ -198,18 +190,18 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				{
 					Url = img,
 				};
-				await group.SendNormalMessage( reply);
+				await group.SendMessage( reply);
 			}
 			catch
 			{
-				await group.SendNormalMessage( "获取图片失败");
+				await group.SendMessage( "获取图片失败");
 			}
 		}
 
 		[GroupMessage("电影")]
 		public static async void MovieWeb(Group group, Member m)
 		{
-			await group.SendNormalMessage( "https://www.subaibaiys.com/movie/39921.html");
+			await group.SendMessage( "https://www.subaibaiys.com/movie/39921.html");
 		}
 
 		[GroupMessage]

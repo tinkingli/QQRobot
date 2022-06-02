@@ -19,6 +19,12 @@ namespace App
 			}
 		}
 		private static Dictionary<string, Info> dCache = new Dictionary<string, Info>();
+		public static Info Get(string id)
+		{
+			if (dCache.ContainsKey(id))
+				return dCache[id];
+			return DB.FindOneData<Info>(id);
+		}
 		public static Info GetOrCreateOne(string id, string name)
 		{
 			if (dCache.ContainsKey(id))
@@ -44,7 +50,6 @@ namespace App
 			DB.UpdateOneData(info);
 			dCache[info.id] = info;
 		}
-		private static Dictionary<string, FieldInfo> dFields = new Dictionary<string, FieldInfo>();
 		internal static Dictionary<int, Info> GetRank(string v)
 		{
 			var res = DB.FindManyData("Info", ADBAccessor.filter_Gt(v, 0), ADBAccessor.projections("name", v), 9, 0, ADBAccessor.sort_Descending(v));
@@ -53,7 +58,7 @@ namespace App
 			{
 				var info = new Info();
 				l[i] = info;
-				info.name = res[i]["name"].ToString();
+				info.name = res[i]["name"]?.ToString();
 				switch (v)
 				{
 					case nameof(info.Gongli):

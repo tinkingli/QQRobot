@@ -17,21 +17,25 @@ namespace App
 				return;
 			if (juedou != null && juedou.Valid)
 			{
-				await group.SendNormalMessage( "有已经开启的决斗了，请稍候再试。");
+				await group.SendMessage("有已经开启的决斗了，请稍候再试。");
 				return;
 			}
 
 			juedouid++;
 			var jid = juedouid;
 			juedou = new Juedou() { A = new JuedouCell() { id = friend.Id, Name = friend.Name } };
-			await group.SendNormalMessage( $"{friend.Name}发起了决斗，请于{Juedou.WaitSec}秒内回复“接受决斗”开启决斗。");
+			if (content == "还有谁")
+				juedou.LimitJingjie = false;
+			var info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
+			juedou.A.info = info;
+			await group.SendMessage($"{friend.Name}发起了{(!juedou.LimitJingjie ? "【不限境界】的" : $"只限【{info.JingjieDes}境】的")}决斗，请于{Juedou.WaitSec}秒内回复“接受决斗”开启决斗。");
 
 			await Task.Delay(Juedou.WaitSec * 1000);
 			if (juedou == null || (juedou.A != null && juedou.B != null))
 				return;
 			if (jid != juedouid)
 				return;
-			await group.SendNormalMessage( "无人响应，决斗取消");
+			await group.SendMessage("无人响应，决斗取消");
 		}
 
 		[GroupMessage("接受决斗")]
@@ -39,17 +43,23 @@ namespace App
 		{
 			if (juedou == null || !juedou.Valid)
 			{
-				await group.SendNormalMessage( "没有等待接受的决斗");
+				await group.SendMessage("没有等待接受的决斗");
 				return;
 			}
 			if (juedou.A.id == friend.Id)
 			{
-				await group.SendNormalMessage( "禁止自杀");
+				await group.SendMessage("禁止自杀");
 				return;
 			}
 			if (juedou.B != null)
 			{
-				await group.SendNormalMessage( "决斗已经开始了");
+				await group.SendMessage("决斗已经开始了");
+				return;
+			}
+			var info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
+			if (juedou.LimitJingjie && juedou.A.info.Jingjie != info.Jingjie)
+			{
+				await group.SendMessage($"本次决斗只限{info.JingjieDes}境界");
 				return;
 			}
 			juedou.startt = DateTime.Now.AddDays(1);
@@ -68,7 +78,7 @@ namespace App
 			}
 			killer.info = DBHelper.GetOrCreateOne(killer.id, "");
 			bekill.info = DBHelper.GetOrCreateOne(bekill.id, "");
-			await group.SendNormalMessage( $"{juedou.B.Name}({juedou.B.info.JingjieDes})接受了{juedou.A.Name}({juedou.A.info.JingjieDes})发起的决斗，双方开始轮流出杀。");
+			await group.SendMessage($"{juedou.B.Name}({juedou.B.info.JingjieDes})接受了{juedou.A.Name}({juedou.A.info.JingjieDes})发起的决斗，双方开始轮流出杀。");
 
 			juedouid++;
 			await Task.Delay(1000);
@@ -108,7 +118,7 @@ namespace App
 				}
 				ObjectHelper.Swap(ref killer, ref bekill);
 			}
-			await group.SendNormalMessage(lprocess);
+			await group.SendMessage(lprocess);
 			if (killer.info.Jingjie <= bekill.info.Jingjie && killer.info.NeedTupo)
 			{
 				var success = RandomHelper.Next(10) > 3;
@@ -116,7 +126,7 @@ namespace App
 				{
 					killer.info.Jingjie++;
 					DBHelper.Save(killer.info);
-					await group.SendGroupMessageAsync($"{killer.info.name}在决斗的生死压迫中感受到了命运的召唤，成功突破境界。");
+					await group.SendMessage($"{killer.info.name}在决斗的生死压迫中感受到了命运的召唤，成功突破境界。");
 				}
 			}
 			if (bekill.info.Jingjie <= killer.info.Jingjie && bekill.info.NeedTupo)
@@ -126,7 +136,7 @@ namespace App
 				{
 					bekill.info.Jingjie++;
 					DBHelper.Save(bekill.info);
-					await group.SendGroupMessageAsync($"{bekill.info.name}虽然惜败，但是在决斗的生死压迫中也感受到了命运的召唤，成功突破境界。");
+					await group.SendMessage($"{bekill.info.name}虽然惜败，但是在决斗的生死压迫中也感受到了命运的召唤，成功突破境界。");
 				}
 			}
 			if (RandomHelper.Next(2) == 0)
@@ -161,7 +171,7 @@ namespace App
 					};
 				}
 				b.Append(atmsg).Append(msg);
-				await group.SendGroupMessageAsync(b.Build());
+				await group.SendMessage(b.Build());
 			}
 		}
 
@@ -192,28 +202,28 @@ namespace App
 			if (GroupHelper.Invalid(group.Id))
 				return;
 			var info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
-			if (info.Dazuo > 100)
+			if (info.Dazuo >= 100)
 			{
-				await group.SendNormalMessage($"{friend.Name}今天打坐次数已经很多了，修仙为逆天行事，不可操之过急，明日签到之后再继续吧");
+				await group.SendMessage($"{friend.Name}今天打坐次数已经很多了，修仙为逆天行事，不可操之过急，明日签到之后再继续吧");
 				return;
 			}
 			if (info.XunbaoT > 0)
 			{
-				await group.SendNormalMessage($"{friend.Name}正在寻宝中，不能打坐");
+				await group.SendMessage($"{friend.Name}正在寻宝中，不能打坐");
 				return;
 			}
 			if (info.DazuoStartT == 0)
 			{
 				info.DazuoStartT = ApiDateTime.SecondsFromBegin();
 				DBHelper.Save(info);
-				await group.SendNormalMessage($"{friend.Name}开始打坐");
+				await group.SendMessage($"{friend.Name}开始打坐");
 				return;
 			}
 			if (ApiDateTime.SecondsFromBegin() - info.DazuoStartT < 60)
 			{
 				info.DazuoStartT = 0;
 				DBHelper.Save(info);
-				await group.SendNormalMessage( $"{friend.Name}打坐不足一分钟");
+				await group.SendMessage($"{friend.Name}打坐不足一分钟");
 				return;
 			}
 			var s = (int)(ApiDateTime.SecondsFromBegin() - info.DazuoStartT);
@@ -230,7 +240,7 @@ namespace App
 				info.Gongli++;
 			}
 			DBHelper.Save(info);
-			await group.SendNormalMessage( $"{friend.Name}打坐{s}秒，精力+{ic}，目前有精力{info.Energy}" + (dunwu ? $"\n打坐中顿悟，想通了人和宇宙以及植物和僵尸之间的紧密关系，功力+1({info.Gongli})" : ""));
+			await group.SendMessage($"{friend.Name}打坐{s}秒，精力+{ic}，目前有精力{info.Energy}" + (dunwu ? $"\n打坐中顿悟，想通了人和宇宙以及植物和僵尸之间的紧密关系，功力+1({info.Gongli})" : ""));
 		}
 
 		[GroupMessage("寻宝")]
@@ -243,7 +253,7 @@ namespace App
 				var info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
 				if (info.DazuoStartT != 0)
 				{
-					await group.SendNormalMessage( $"{friend.Name}正在打坐，不能寻宝");
+					await group.SendMessage($"{friend.Name}正在打坐，不能寻宝");
 					return;
 				}
 				if (info.XunbaoT != 0)
@@ -257,43 +267,43 @@ namespace App
 						if (irdm == 0)
 						{
 							info.Gongli += 3;
-							await group.SendNormalMessage( $"{friend.Name}逛街的时候买了一个高达10厘米的手办，功力大增（功力+3（{info.Gongli}））");
+							await group.SendMessage($"{friend.Name}逛街的时候买了一个高达10厘米的手办，功力大增（功力+3（{info.Gongli}））");
 						}
 						else if (irdm == 1)
 						{
 							info.Gongli += 2;
-							await group.SendNormalMessage( $"{friend.Name}机缘巧合下解开了鸡兔同笼谜题，得到了【兔笼宝刀】一把，功力大增（功力+2（{info.Gongli}））");
+							await group.SendMessage($"{friend.Name}机缘巧合下解开了鸡兔同笼谜题，得到了【兔笼宝刀】一把，功力大增（功力+2（{info.Gongli}））");
 						}
 						else if (irdm == 2)
 						{
 							info.Gongli += 2;
-							await group.SendNormalMessage( $"{friend.Name}只花了一天时间就逛遍了整个仙界，得到了【一天见】称号，功力大增（功力+2（{info.Gongli}））");
+							await group.SendMessage($"{friend.Name}只花了一天时间就逛遍了整个仙界，得到了【一天见】称号，功力大增（功力+2（{info.Gongli}））");
 						}
 						else if (irdm == 3)
 						{
 							info.Gongli++;
-							await group.SendGroupMessageAsync($"{friend.Name}寻宝的时候掉下悬崖，摔得遍体鳞伤，不过捡到了一包【因祸德福巧克力】，吃了之后功力+1（{info.Gongli}）");
+							await group.SendMessage($"{friend.Name}寻宝的时候掉下悬崖，摔得遍体鳞伤，不过捡到了一包【因祸德福巧克力】，吃了之后功力+1（{info.Gongli}）");
 						}
 						else
 						{
-							await group.SendGroupMessageAsync(GetRandomXunbaoDesc(friend.Name));
+							await group.SendMessage(GetRandomXunbaoDesc(friend.Name));
 						}
 						DBHelper.Save(info);
 					}
 					else
 					{
-						await group.SendNormalMessage( $"{friend.Name}寻宝中，目前一无所获");
+						await group.SendMessage($"{friend.Name}寻宝中，目前一无所获");
 					}
 					return;
 				}
 				if (info.Energy < 10)
 				{
-					await group.SendNormalMessage( $"{friend.Name}精力不足10点，不能寻宝");
+					await group.SendMessage($"{friend.Name}精力不足10点，不能寻宝");
 					return;
 				}
 				if (info.NeedTupo)
 				{
-					await group.SendNormalMessage( $"{friend.Name}功力达到瓶颈，需要渡劫成功，突破当前境界之后才能继续寻宝。");
+					await group.SendMessage($"{friend.Name}功力达到瓶颈，需要渡劫成功，突破当前境界之后才能继续寻宝。");
 					return;
 				}
 				info.Energy -= 10;
@@ -301,12 +311,28 @@ namespace App
 				info.XunbaoEndT = info.XunbaoT + RandomHelper.Next(300) + 300;
 				DBHelper.Save(info);
 				var t = ApiDateTime.ToTime(info.XunbaoEndT);
-				await group.SendNormalMessage( $"{friend.Name}开始寻宝，精力-10(目前剩余{info.Energy})，大概{t.ToString("HH:mm")}寻宝结束");
+				await group.SendMessage($"{friend.Name}开始寻宝，精力-10(目前剩余{info.Energy})，大概{t.ToString("HH:mm")}寻宝结束");
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"[寻宝Error]{ex}");
 			}
+		}
+
+		[GroupMessage("打招呼")]
+		public static async void OnDujie(Group group, Member friend, string target)
+		{
+			if (string.IsNullOrEmpty(target))
+				return;
+			var info = DBHelper.Get(target);
+			if (info == null)
+				return;
+			var p1 = new PlainMessage($"{friend.Name}向");
+			var at = new AtMessage() { Target = target };
+			var p2 = new PlainMessage($"招了招手");
+			var b = new MessageChainBuilder();
+			b.Append(p1).Append(at).Append(p2);
+			await group.SendMessage(b.Build());
 		}
 
 		[GroupMessage("渡劫")]
@@ -315,7 +341,7 @@ namespace App
 			var info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
 			if (!info.NeedTupo)
 			{
-				await group.SendGroupMessageAsync($"小屁孩别捣乱。");
+				await group.SendMessage($"道友功力尚浅，贸然渡劫恐伤及仙根，影响日后的修行。");
 				return;
 			}
 			var success = RandomHelper.Next(info.MaxGongli) + 5 < 10;
@@ -323,12 +349,12 @@ namespace App
 			{
 				info.Jingjie++;
 				DBHelper.Save(info);
-				await group.SendGroupMessageAsync($"{friend.Name}渡劫成功，喜大普奔，红旗招展，鞭炮齐鸣，人山人海，一举成为全村最靓的仔。");
+				await group.SendMessage($"{friend.Name}渡劫成功，喜大普奔，红旗招展，鞭炮齐鸣，人山人海，一举成为全村最靓的仔。");
 				return;
 			}
 			info.Gongli = info.MaxGongli - 1;
 			DBHelper.Save(info);
-			await group.SendGroupMessageAsync($"{friend.Name}渡劫失败，遭受反噬，功力大减（{info.Gongli}）。");
+			await group.SendMessage($"{friend.Name}渡劫失败，遭受反噬，功力大减（{info.Gongli}）。");
 		}
 
 		private static string GetRandomXunbaoDesc(string name)
@@ -359,7 +385,7 @@ namespace App
 		[GroupMessage("青楼")]
 		public static async void OnQinglou(Group group, Member friend)
 		{
-			await group.SendGroupMessageAsync($"{friend.Name} 独上青楼听艳曲，手擎玉箫无人吹。");
+			await group.SendMessage($"{friend.Name} 独上青楼听艳曲，手擎玉箫无人吹。");
 		}
 
 		[GroupMessage("信息")]
@@ -377,7 +403,7 @@ namespace App
 			var b = new MessageChainBuilder();
 			var m = new ImageMessage() { Base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes("logo.png")) };
 			b.Append(m).Append(new PlainMessage() { Text = res });
-			await group.SendGroupMessageAsync(b.Build());
+			await group.SendMessage(b.Build());
 		}
 
 		[GroupMessage("功力榜")]
@@ -392,7 +418,7 @@ namespace App
 			var b = new MessageChainBuilder();
 			var m = new ImageMessage() { Base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes("logo.png")) };
 			b.Append(m).Append(new PlainMessage() { Text = res });
-			await group.SendGroupMessageAsync(b.Build());
+			await group.SendMessage(b.Build());
 		}
 
 		[GroupMessage("精力榜")]
@@ -407,7 +433,7 @@ namespace App
 			var b = new MessageChainBuilder();
 			var m = new ImageMessage() { Base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes("logo.png")) };
 			b.Append(m).Append(new PlainMessage() { Text = res });
-			await group.SendGroupMessageAsync(b.Build());
+			await group.SendMessage(b.Build());
 		}
 
 		[GroupMessage("决斗榜")]
@@ -422,7 +448,7 @@ namespace App
 			var b = new MessageChainBuilder();
 			var m = new ImageMessage() { Base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes("logo.png")) };
 			b.Append(m).Append(new PlainMessage() { Text = res });
-			await group.SendGroupMessageAsync(b.Build());
+			await group.SendMessage(b.Build());
 		}
 
 		[GroupMessage("境界榜")]
@@ -437,7 +463,7 @@ namespace App
 			var b = new MessageChainBuilder();
 			var m = new ImageMessage() { Base64 = Convert.ToBase64String(System.IO.File.ReadAllBytes("logo.png")) };
 			b.Append(m).Append(new PlainMessage() { Text = res });
-			await group.SendGroupMessageAsync(b.Build());
+			await group.SendMessage(b.Build());
 		}
 
 		[GroupMessage("功能")]
@@ -453,7 +479,7 @@ namespace App
 				"更多功能敬请期待\n" +
 				"《烦人修仙传》烦人，我们是认真的！";
 			b.Append(m).Append(new PlainMessage() { Text = res });
-			await group.SendGroupMessageAsync(b.Build());
+			await group.SendMessage(b.Build());
 		}
 	}
 }
