@@ -37,7 +37,6 @@ namespace App
 				return;
 			await group.SendMessage("无人响应，决斗取消");
 		}
-
 		[GroupMessage("接受决斗")]
 		public static async void OnAcceptJuedou(Group group, Member friend, string content)
 		{
@@ -385,19 +384,26 @@ namespace App
 		[GroupMessage("青楼")]
 		public static async void OnQinglou(Group group, Member friend)
 		{
-			await group.SendMessage($"{friend.Name} 独上青楼听艳曲，手擎玉箫无人吹。");
+			await group.SendMessage($"{friend.Name} 独上青楼听艳曲，手擎玉箫无人吹！");
 		}
 
 		[GroupMessage("信息")]
-		public static async void OnXinxi(Group group, Member friend)
+		public static async void OnXinxi(Group group, Member friend, string target)
 		{
 			if (GroupHelper.Invalid(group.Id))
 				return;
-			var info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
-			var res = $"【{friend.Name}】\n" +
+			Info info = null;
+			if (!string.IsNullOrEmpty(target))
+				info = DBHelper.Get(target);
+			else
+				info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
+			if (info == null)
+				return;
+			var res = $"【{info.name}】\n" +
 				$"功力：{info.Gongli}\n" +
 				$"境界：{info.JingjieDes}\n" +
 				$"精力：{info.Energy}\n" +
+				$"决斗胜利：{info.JuedouWin}\n" +
 				$"打坐进度：{info.Dazuo}/100"
 				;
 			var b = new MessageChainBuilder();
