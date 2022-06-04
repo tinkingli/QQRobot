@@ -59,7 +59,7 @@ async void ConnectMirai()
 					}
 				}
 				var amsg = r.MessageChain.GetPlainMessage().Split(' ', 2);
-				EventSystem.Instance.InvokeMothod(r.Sender.Group, r.Sender, amsg[0], amsg.Length > 1 ? amsg[1] : at);
+				EventSystem.Instance.InvokeMothod(r.Sender.Group, r.Sender, amsg[0], amsg.Length > 1 ? amsg[1].Trim() : at);
 			});
 
 		bot.MessageReceived
@@ -69,7 +69,7 @@ async void ConnectMirai()
 				Console.WriteLine($"[Friend][{r.Sender.Id}][Lv:{r.Sender.FriendProfile.Level}]{r.Sender.NickName}:{r.MessageChain.GetPlainMessage()}");
 				Console.WriteLine("");
 				var amsg = r.MessageChain.GetPlainMessage().Split(' ', 2);
-				EventSystem.Instance.InvokeMothod(r.Sender, amsg[0], amsg.Length > 1 ? amsg[1] : "");
+				EventSystem.Instance.InvokeMothod(r.Sender, amsg[0], amsg.Length > 1 ? amsg[1].Trim() : "");
 			});
 
 		bot.EventReceived

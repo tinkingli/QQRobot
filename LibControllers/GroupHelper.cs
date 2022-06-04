@@ -112,7 +112,7 @@ namespace App
 				return lRobotReply[keyword];
 			return "";
 		}
-		public static async Task SendMessage(this Mirai.Net.Data.Shared.Group g, string content)
+		public static async Task OnSendMessage(this Mirai.Net.Data.Shared.Group g, string content)
 		{
 			await SendMessage(g.Id, content);
 		}

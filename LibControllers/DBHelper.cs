@@ -45,7 +45,7 @@ namespace App
 			dCache[id] = info;
 			return info;
 		}
-		public static void Save(Info info)
+		public static void Save(this Info info)
 		{
 			DB.UpdateOneData(info);
 			dCache[info.id] = info;

@@ -56,7 +56,7 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 			var info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
 			if (ApiDateTime.IsToday(info.DailyCheckT))
 			{
-				await group.SendMessage($"今天已经签到过了");
+				await group.OnSendMessage($"今天已经签到过了");
 				return;
 			}
 			info.DailyCheckT = ApiDateTime.SecondsFromBegin();
@@ -101,16 +101,16 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 				return;
 			if (content.Contains("废话"))
 			{
-				await group.SendMessage( "这种事情我见的多了，我只想说懂得都懂，不懂的我也不多说了，细细品吧，你也别来问我怎么回事，这里面利益牵扯太大了，说了对你我都没有好处，你就当不知道就行了，其余的我只能说这里水很深，牵扯到很多东西，详细情况你们很难找到的，网上大部分都删干净了，所以我说懂得都懂。");
+				await group.OnSendMessage( "这种事情我见的多了，我只想说懂得都懂，不懂的我也不多说了，细细品吧，你也别来问我怎么回事，这里面利益牵扯太大了，说了对你我都没有好处，你就当不知道就行了，其余的我只能说这里水很深，牵扯到很多东西，详细情况你们很难找到的，网上大部分都删干净了，所以我说懂得都懂。");
 				return;
 			}
             if (content.Contains("聊骚"))
             {
-				await group.SendMessage( "去死吧！！！");
+				await group.OnSendMessage( "去死吧！！！");
 				return;
 			}
 			var reply = GroupHelper.GetRobotReply(content);
-			await group.SendMessage( await HttpHelper.GetRobotReply(content));
+			await group.OnSendMessage( await HttpHelper.GetRobotReply(content));
 		}
 
 		[GroupMessage("acg")]
@@ -131,7 +131,7 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 			}
 			catch
 			{
-				await group.SendMessage( "获取图片失败");
+				await group.OnSendMessage( "获取图片失败");
 			}
 		}
 		[GroupMessage("cos")]
@@ -152,7 +152,7 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 			}
 			catch
 			{
-				await group.SendMessage( "获取图片失败");
+				await group.OnSendMessage( "获取图片失败");
 			}
 		}
 		[GroupMessage("mjx")]
@@ -173,7 +173,7 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 			}
 			catch
 			{
-				await group.SendMessage( "获取图片失败");
+				await group.OnSendMessage( "获取图片失败");
 			}
 		}
 		[GroupMessage("美图")]
@@ -194,14 +194,14 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 			}
 			catch
 			{
-				await group.SendMessage( "获取图片失败");
+				await group.OnSendMessage( "获取图片失败");
 			}
 		}
 
 		[GroupMessage("电影")]
 		public static async void MovieWeb(Group group, Member m)
 		{
-			await group.SendMessage( "https://www.subaibaiys.com/movie/39921.html");
+			await group.OnSendMessage( "https://www.subaibaiys.com/movie/39921.html");
 		}
 
 		[GroupMessage]
