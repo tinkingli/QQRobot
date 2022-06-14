@@ -22,6 +22,11 @@ namespace App
 		public int Gongli;
 		public int JuedouWin;
 		public int Jingjie;
+		public int Lingqi;
+		public int DongtianLingqi;
+		public long DongtianStartT;
+		public long DongtianEndT;
+		public int DujieExtra;
 		public static int[] JingjieFenduan = { 10, 100, 1_000, 10_000, 100_000, 1_000_000, 10_000_000 };
 		public static string[] JingjieDescs = { "炼气", "先天", "金丹", "元婴", "化神", "返虚", "合道" };
 		public string JingjieDes

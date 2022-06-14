@@ -42,16 +42,24 @@ async void ConnectMirai()
 			.Subscribe(r =>
 			{
 				SaveToLocal(r);
+				var at = "";
 				foreach (var c in r.MessageChain)
 				{
-					if (c is AtMessage atMessage && atMessage.Target == bot.QQ)
+					if (c is AtMessage atMessage)
 					{
-						EventSystem.Instance.InvokeMothod(r.Sender.Group, r.Sender, "闲聊", r.MessageChain.GetPlainMessage());
-						return;
+						if (atMessage.Target == bot.QQ)
+						{
+							EventSystem.Instance.InvokeMothod(r.Sender.Group, r.Sender, "闲聊", r.MessageChain.GetPlainMessage());
+							return;
+						}
+						else
+						{
+							at = atMessage.Target;
+						}
 					}
 				}
 				var amsg = r.MessageChain.GetPlainMessage().Split(' ', 2);
-				EventSystem.Instance.InvokeMothod(r.Sender.Group, r.Sender, amsg[0], amsg.Length > 1 ? amsg[1] : "");
+				EventSystem.Instance.InvokeMothod(r.Sender.Group, r.Sender, amsg[0], amsg.Length > 1 ? amsg[1].Trim() : at);
 			});
 
 		bot.MessageReceived
@@ -61,7 +69,7 @@ async void ConnectMirai()
 				Console.WriteLine($"[Friend][{r.Sender.Id}][Lv:{r.Sender.FriendProfile.Level}]{r.Sender.NickName}:{r.MessageChain.GetPlainMessage()}");
 				Console.WriteLine("");
 				var amsg = r.MessageChain.GetPlainMessage().Split(' ', 2);
-				EventSystem.Instance.InvokeMothod(r.Sender, amsg[0], amsg.Length > 1 ? amsg[1] : "");
+				EventSystem.Instance.InvokeMothod(r.Sender, amsg[0], amsg.Length > 1 ? amsg[1].Trim() : "");
 			});
 
 		bot.EventReceived

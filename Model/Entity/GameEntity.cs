@@ -41,7 +41,8 @@ namespace App
 				return (DateTime.Now - startt).TotalSeconds < WaitSec;
 			}
 		}
-		public const int WaitSec = 20;
+		public const int WaitSec = 60;
+		public bool LimitJingjie = true;
 	}
 
 

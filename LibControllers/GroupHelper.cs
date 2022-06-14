@@ -112,11 +112,11 @@ namespace App
 				return lRobotReply[keyword];
 			return "";
 		}
-		public static async Task SendNormalMessage(this Mirai.Net.Data.Shared.Group g, string content)
+		public static async Task OnSendMessage(this Mirai.Net.Data.Shared.Group g, string content)
 		{
-			await SendNormalMessage(g.Id, content);
+			await SendMessage(g.Id, content);
 		}
-		public static async Task SendNormalMessage(this Mirai.Net.Data.Shared.Group g, MessageChain content)
+		public static async Task SendMessage(this Mirai.Net.Data.Shared.Group g, MessageChain content)
 		{
 			try
 			{
@@ -128,7 +128,7 @@ namespace App
 			}
 		}
 
-		public static async Task SendNormalMessage(string gid, string content)
+		public static async Task SendMessage(string gid, string content)
 		{
 			try
 			{
@@ -139,11 +139,11 @@ namespace App
 				Console.WriteLine($"[SendMessageFailed]{ex}");
 			}
 		}
-		public static async Task SendNormalMessage(this Mirai.Net.Data.Shared.Group g, List<string> lprocess)
+		public static async Task SendMessage(this Mirai.Net.Data.Shared.Group g, List<string> lprocess)
 		{
-			await SendNormalMessage(g.Id, lprocess);
+			await SendMessage(g.Id, lprocess);
 		}
-		public static async Task SendNormalMessage(string gid, List<string> lprocess)
+		public static async Task SendMessage(string gid, List<string> lprocess)
 		{
 			try
 			{
