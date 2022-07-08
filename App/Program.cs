@@ -59,7 +59,7 @@ async void ConnectMirai()
 					}
 				}
 				var amsg = r.MessageChain.GetPlainMessage().Split(' ', 2);
-				EventSystem.Instance.InvokeMothod(r.Sender.Group, r.Sender, amsg[0], amsg.Length > 1 ? amsg[1].Trim() : at);
+				EventSystem.Instance.InvokeMothod(r.Sender.Group, r.Sender, amsg[0], string.IsNullOrEmpty(at) ? (amsg.Length > 1 ? amsg[1].Trim() : "") : at);
 			});
 
 		bot.MessageReceived
@@ -79,8 +79,9 @@ async void ConnectMirai()
 				EventSystem.Instance.InvokeMothod(r.Member.Group, r.Member, "入群", "");
 			});
 
+		EventSystem.Instance.InvokeMothod(null, null, "InitController", "");
 
-		Console.WriteLine(bot.QQ);
+        Console.WriteLine(bot.QQ);
 		exit.WaitOne();
 	}
 	catch (Exception ex)

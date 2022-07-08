@@ -74,7 +74,7 @@ namespace App
 			if (!dTagFiles.ContainsKey(f))
 				return "";
 			var fs = dTagFiles[f];
-			return fs[RandomHelper.random.Next(fs.Count)];
+			return fs[RandomHelper.Next(fs.Count)];
 		}
 
 		private const string atfile = "ats.txt";
@@ -116,6 +116,13 @@ namespace App
 		{
 			await SendMessage(g.Id, content);
 		}
+		public static async Task OnSendMessage(this Mirai.Net.Data.Shared.Group g, params MessageBase[] messages)
+        {
+			var mc = new MessageChain();
+			foreach (var m in messages)
+				mc.Append(m);
+			await SendMessage(g, mc);
+        }
 		public static async Task SendMessage(this Mirai.Net.Data.Shared.Group g, MessageChain content)
 		{
 			try
