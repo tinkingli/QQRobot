@@ -62,7 +62,7 @@ IL2CPP：https://github.com/pirunxi/il2cpp_huatuo
 			info.DailyCheckT = ApiDateTime.SecondsFromBegin();
 			info.Energy += 10;
 			info.Dazuo = 0;
-			var r = RandomHelper.Next(1, info.Jingjie * 10);
+			var r = RandomHelper.Next(1, (info.Jingjie + 1) * 10);
 			info.Qiankunzhu += r;
 			DBHelper.Save(info);
 			await group.SendGroupMessageAsync($"{friend.Name}签到成功，精力+10，目前有精力{info.Energy}，签到时还不小心从兜里掉出来{r}个祖传的乾坤珠。");

@@ -2,6 +2,7 @@
 using Mirai.Net.Data.Shared;
 using Mirai.Net.Sessions.Http.Managers;
 using Mirai.Net.Utils.Scaffolds;
+using System;
 
 namespace App
 {
@@ -87,11 +88,14 @@ namespace App
                 return;
             }
             info.Lingqi -= fudi.FudiNeedLingqi;
-            if (fudi.FudiLayer <= fudi.FudiBlockLayer)
+            if (fudi.FudiLayer >= fudi.FudiBlockLayer)
             {
                 fudi.FudiBlockLayer = fudi.FudiLayer + RandomHelper.Next(fudi.Jingjie) + 1;
-                fudi.FudiNeedGongli = fudi.Gongli + RandomHelper.Next(fudi.Gongli / 2);
+                fudi.FudiNeedGongli = fudi.Gongli + RandomHelper.Next(fudi.Gongli * fudi.FudiLayer / 2);
                 fudi.FudiLastGongli = fudi.FudiNeedGongli;
+                fudi.FudiNum1 = RandomHelper.Next(50);
+                fudi.FudiNum2 = 0;
+                fudi.Save();
                 await group.OnSendMessage($"{fudi.name}的福地中的灵气被平息后，惊动了福地中酣睡的一头功力{fudi.FudiNeedGongli}的神兽。");
             }
             else
@@ -151,15 +155,56 @@ namespace App
             info.Qiankunzhu += info.FudiQiankunzhu;
             await group.OnSendMessage($"{info.name}在本次福地探险中一共收获了{info.FudiQiankunzhu}颗乾坤珠。");
             info.FudiQiankunzhu = 0;
+            info.FudiNum1 = 0;
+            info.FudiNum2 = 0;
+            info.Save();
+        }
+        [GroupMessage("神兽")]
+        public static async void OnShenshou(Group group, Member friend, string target)
+        {
+            var info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
+            if (!long.TryParse(friend.Id, out var lid))
+                return;
+            long inum;
+            long.TryParse(target, out inum);
+            if (info.FudiNum1 == 0)
+            {
+                await group.OnSendMessage($"神兽之题已解。");
+                return;
+            }
+            if (info.FudiNum1 != inum)
+            {
+                info.FudiNum2++;
+                if (info.FudiNum1 > inum)
+                    await group.OnSendMessage(info.FudiNum1 - inum > 10 ? "吾心中之数多之甚矣" : $"吾心中之数较大");
+                else
+                    await group.OnSendMessage(inum - info.FudiNum1 > 10 ? "吾心中之数小之甚矣" : $"吾心中之数较小");
+                info.Save();
+                return;
+            }
+            info.FudiNum1 = 0;
+            if (info.FudiNum2 <= 5)
+            {
+                var add = RandomHelper.Next(info.Jingjie * 10) + 1;
+                info.FudiQiankunzhu += add;
+                await group.OnSendMessage($"{info.name}猜中了神兽心中所想，福地乾坤珠增加了{add}个待收取。");
+            }
+            else
+            {
+                await group.OnSendMessage($"{info.name}猜中了神兽心中所想。");
+            }
             info.Save();
         }
         [GroupMessage("驯服")]
         public static async void OnXunfu(Group group, Member friend, string target)
         {
+            if (!long.TryParse(friend.Id, out var lid))
+                return;
             var info = DBHelper.GetOrCreateOne(friend.Id, friend.Name);
             if (string.IsNullOrEmpty(target.Trim()))
                 target = friend.Id;
-            var fudi = DBHelper.Get(target);
+            var acontent = target.Split(' ', 2);
+            var fudi = DBHelper.Get(acontent[0]);
             if (fudi == null)
             {
                 await group.OnSendMessage($"驯服？驯服啥？");
@@ -196,12 +241,18 @@ namespace App
                 await group.OnSendMessage($"{fudi.name}的福地中的上一场驯服神兽的激战造成的灵气紊乱仍为平息，请大约{last / 60 + 1}分钟后再来吧。");
                 return;
             }
+            if (fudi.FudiNum1 != 0)
+            {
+                await group.OnSendMessage($"神兽口吐人言，“吾心中有一数字，汝每次猜测，吾会提示你大或小，五次内猜中，吾将予奖赏。”回复“神兽 答案”可作答。");
+                return;
+            }
+
             info.Lingqi -= fudi.FormerJieduanMax;
             var rdm = RandomHelper.Next(fudi.FudiNeedGongli / 2);
             fudi.FudiLastGongli -= rdm;
             if (fudi.FudiLastGongli > 0)
             {
-                fudi.FudiBattleT = ApiDateTime.SecondsFromBegin() + 600;
+                fudi.FudiBattleT = ApiDateTime.SecondsFromBegin() + RandomHelper.Next(300) + 300;
                 fudi.Save();
                 info.Save();
                 await group.OnSendMessage($"经过一场大战，{fudi.name}的福地中的神兽元气大伤({fudi.FudiLastGongli}/{fudi.FudiNeedGongli})，隐匿起来。");
@@ -228,6 +279,13 @@ namespace App
                 await group.OnSendMessage($"输入“乾坤珠 数量（1或10的倍数）”可以使用乾坤珠，{info.name}当前持有{info.Qiankunzhu}颗乾坤珠。");
                 return;
             }
+            if (info.Jingjie < 2)
+            {
+                await group.OnSendMessage($"{info.name}的境界太低了，现在服用乾坤珠容易消化不良啊。");
+                return;
+            }
+            if (inum <= 0)
+                return;
             if (inum != 1 && inum % 10 != 0)
             {
                 await group.OnSendMessage($"输入“乾坤珠 数量（1或10的倍数）”可以使用乾坤珠，{info.name}当前持有{info.Qiankunzhu}颗乾坤珠。");
@@ -853,7 +911,7 @@ namespace App
                 await group.OnSendMessage($"道友功力尚浅，贸然渡劫恐伤及仙根，影响日后的修行。");
                 return;
             }
-            var success = RandomHelper.Next(info.MaxGongli) + 5 < 10 + info.DujieExtra * 0.1 * info.MaxGongli + (info.Gongli - info.MaxGongli);
+            var success = RandomHelper.Next(info.MaxGongli) < 10 + info.DujieExtra * 0.01 * info.MaxGongli + (info.Gongli - info.MaxGongli);
             if (success)
             {
                 info.Jingjie++;

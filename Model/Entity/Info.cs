@@ -37,6 +37,8 @@ namespace App
         public int FudiBlockLayer;
         public int FudiNeedLingqi;
         public int FudiQiankunzhu;
+        public int FudiNum1;
+        public int FudiNum2;
         public int Qiankunzhu;
         public long QiankunzhuCDT;
         public int FudiMaxLayer;
