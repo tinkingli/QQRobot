@@ -6,6 +6,7 @@ using Mirai.Net.Utils.Scaffolds;
 using System.Reactive.Linq;
 using App;
 using Mirai.Net.Data.Events.Concretes.Group;
+using System;
 
 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -59,7 +60,7 @@ async void ConnectMirai()
 					}
 				}
 				var amsg = r.MessageChain.GetPlainMessage().Split(' ', 2);
-				EventSystem.Instance.InvokeMothod(r.Sender.Group, r.Sender, amsg[0], amsg.Length > 1 ? amsg[1].Trim() : at);
+				EventSystem.Instance.InvokeMothod(r.Sender.Group, r.Sender, amsg[0], at + " " + (string.IsNullOrEmpty(at) ? (amsg.Length > 1 ? amsg[1].Trim() : "") : ""));
 			});
 
 		bot.MessageReceived
@@ -79,8 +80,9 @@ async void ConnectMirai()
 				EventSystem.Instance.InvokeMothod(r.Member.Group, r.Member, "入群", "");
 			});
 
+		EventSystem.Instance.InvokeMothod(null, null, "InitController", "");
 
-		Console.WriteLine(bot.QQ);
+        Console.WriteLine(bot.QQ);
 		exit.WaitOne();
 	}
 	catch (Exception ex)

@@ -13,6 +13,10 @@ namespace App
 		{
 			return (DateTime.Now - time_begin19700101).Ticks / 10000;
 		}
+		public static long Day0SecondsFromBegin()
+		{
+			return SecondsFromBegin() / DaySecond * DaySecond;
+		}
 		public static long SecondsFromBegin()
 		{
 			return MillionSecondsFromBegin() / 1000;
@@ -21,7 +25,7 @@ namespace App
 		{
 			return time_begin19700101.AddSeconds(sec);
 		}
-		private const int DaySecond = 24 * 3600;
+		public const long DaySecond = 24 * 3600;
 		public static bool IsToday(long time)
 		{
 			return time / DaySecond == SecondsFromBegin() / DaySecond;
